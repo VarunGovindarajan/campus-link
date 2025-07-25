@@ -13,9 +13,13 @@ const AuthPage = ({ setUser }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
+        
+        // Ensure role is 'student' if signing up, even if state was manipulated
+        const submissionData = isLogin ? formData : { ...formData, role: 'student' };
+
         const endpoint = isLogin ? '/auth/login' : '/auth/register';
         try {
-            const res = await api.post(endpoint, formData);
+            const res = await api.post(endpoint, submissionData);
             localStorage.setItem('token', res.data.token);
             localStorage.setItem('user', JSON.stringify(res.data.user));
             setUser(res.data.user);
@@ -38,10 +42,16 @@ const AuthPage = ({ setUser }) => {
                     )}
                     <input name="email" onChange={handleChange} className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-400" type="email" placeholder="Email Address" required />
                     <input name="password" onChange={handleChange} className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-400" type="password" placeholder="Password" required />
+                    
+                    {/* Role selection is now conditional */}
                     <select name="role" onChange={handleChange} value={formData.role} className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-400">
                         <option value="student">Student</option>
-                        <option value="admin">Admin</option>
+                        {/* The Admin option only shows on the login form */}
+                        {isLogin && (
+                            <option value="admin">Admin</option>
+                        )}
                     </select>
+
                     {error && <p className="text-red-400 text-sm text-center">{error}</p>}
                     <button type="submit" className="w-full py-3 font-semibold text-gray-900 bg-cyan-400 rounded-lg hover:bg-cyan-500 transition-colors">
                         {isLogin ? 'Login' : 'Create Account'}
@@ -49,7 +59,7 @@ const AuthPage = ({ setUser }) => {
                 </form>
                 <p className="text-center text-gray-400">
                     {isLogin ? "Don't have an account?" : 'Already have an account?'}
-                    <button onClick={() => { setIsLogin(!isLogin); setError('') }} className="ml-2 font-semibold text-cyan-400 hover:underline">
+                    <button onClick={() => { setIsLogin(!isLogin); setError(''); setFormData({ name: '', email: '', password: '', role: 'student' }); }} className="ml-2 font-semibold text-cyan-400 hover:underline">
                         {isLogin ? 'Sign Up' : 'Login'}
                     </button>
                 </p>
