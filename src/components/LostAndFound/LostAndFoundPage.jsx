@@ -126,9 +126,10 @@ const LostAndFoundPage = ({ user }) => {
                                         <p className="flex items-center"><MapPin className="w-4 h-4 mr-2" /> {item.location}</p>
                                         {/* --- FIX APPLIED AS PER YOUR INSTRUCTION --- */}
                                         <p className="flex items-center">
-                                            <Clock className="w-4 h-4 mr-2" /> 
-                                            Reported by {item.reporter ? item.reporter.name : 'an unknown user'} on {new Date(item.createdAt).toLocaleDateString()}
-                                        </p>
+  <Clock className="w-4 h-4 mr-2" /> 
+  Reported by {item.reporter?.name || 'an unknown user'} on {new Date(item.createdAt).toLocaleDateString()}
+</p>
+
                                     </div>
                                 </div>
                                 <div className="flex justify-between items-center mt-4 pt-2 border-t">
