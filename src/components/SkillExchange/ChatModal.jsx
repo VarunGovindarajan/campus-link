@@ -4,7 +4,7 @@ import api from '../../services/api';
 import { Send } from 'lucide-react';
 
 // Connect to the backend socket server
-const socket = io('http://localhost:5001');
+const socket = io('https://campus-link-backend-0u9u.onrender.com');
 
 const ChatModal = ({ user, booking, onClose }) => {
     const [messages, setMessages] = useState([]);
