@@ -7,6 +7,7 @@ const Dashboard = ({ setActivePage }) => {
         { title: 'Lost & Found', icon: Search, page: 'lost-and-found', description: 'Report or find lost items.', color: 'bg-green-500' },
         { title: 'My Timetable', icon: Calendar, page: 'timetable', description: 'View your weekly class schedule.', color: 'bg-purple-500' },
         { title: 'Hostel Complaints', icon: MessageSquare, page: 'complaints', description: 'Register and track hostel issues.', color: 'bg-red-500' },
+        
     ];
 
     return (

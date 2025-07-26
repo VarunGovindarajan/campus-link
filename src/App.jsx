@@ -8,6 +8,11 @@ import AnnouncementsPage from './components/Announcements/AnnouncementsPage';
 import LostAndFoundPage from './components/LostAndFound/LostAndFoundPage';
 import TimetablePage from './components/Timetable/TimetablePage';
 import HostelComplaintsPage from './components/HostelComplaints/HostelComplaintsPage';
+import SkillExchangePage from './components/SkillExchange/SkillExchangePage'; // Add this import
+import OpportunitiesPage from './components/Opportunities/OpportunitiesPage'; // Add this import
+import AdminPollsPage from './components/Polls/AdminPollsPage';
+import UserPollsPage from './components/Polls/UserPollsPage';
+
 
 export default function App() {
     const [user, setUser] = useState(null);
@@ -49,16 +54,46 @@ export default function App() {
                 return <TimetablePage user={user} />;
             case 'complaints':
                 return <HostelComplaintsPage user={user} />;
+                 case 'skill-exchange':
+                return <SkillExchangePage user={user} />;
+            case 'opportunities':
+                return <OpportunitiesPage user={user} />;
+
+                
+            
             default:
                 return <Dashboard setActivePage={setActivePage} />;
         }
     };
 
-    return (
-        <div className="bg-gray-100 min-h-screen font-sans">
-            <div className="flex flex-col lg:flex-row">
-                {user && <Sidebar activePage={activePage} setActivePage={setActivePage} user={user} onLogout={handleLogout} />}
-                <main className="flex-1 transition-all duration-300">
+return (
+        <div className="bg-gray-100 font-sans">
+            {/* Sidebar is fixed, main content has left padding */}
+            <div className="min-h-screen">
+                {user && (
+                    <div>
+                        <div className="hidden lg:block">
+                            <div className="fixed left-0 top-0 h-full w-56 z-30">
+                                <Sidebar
+                                    activePage={activePage}
+                                    setActivePage={setActivePage}
+                                    user={user}
+                                    onLogout={handleLogout}
+                                />
+                            </div>
+                        </div>
+                        <div className="block lg:hidden">
+                            <Sidebar
+                                activePage={activePage}
+                                setActivePage={setActivePage}
+                                user={user}
+                                onLogout={handleLogout}
+                            />
+                        </div>
+                    </div>
+                )}
+                {/* Main content area: add left padding on large screens to avoid overlap with fixed sidebar */}
+                <main className={`flex-1 overflow-y-auto ${user ? 'lg:pl-56' : ''}`}>
                     {renderPage()}
                 </main>
             </div>
