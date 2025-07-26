@@ -23,8 +23,8 @@ const CommentSection = ({ item, user }) => {
         if (!newComment.trim()) return;
         try {
             const res = await api.post(`/comments/${item._id}`, { content: newComment });
-            setComments([...comments, res.data]); // Add new comment to the list
-            setNewComment(''); // Clear input
+            setComments([...comments, res.data]);
+            setNewComment('');
         } catch (error) {
             console.error("Failed to add comment", error);
         }
@@ -36,7 +36,8 @@ const CommentSection = ({ item, user }) => {
             <div className="space-y-3 max-h-48 overflow-y-auto mb-4 pr-2">
                 {comments.length > 0 ? comments.map(comment => (
                     <div key={comment._id} className="bg-gray-100 p-2 rounded-lg">
-                        <p className="font-semibold text-sm">{comment.user.name}</p>
+                        {/* --- FIX: Add a check to ensure comment.user exists --- */}
+                        <p className="font-semibold text-sm">{comment.user ? comment.user.name : 'Unknown User'}</p>
                         <p className="text-sm text-gray-600">{comment.content}</p>
                     </div>
                 )) : <p className="text-sm text-gray-500">No comments yet.</p>}

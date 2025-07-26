@@ -7,7 +7,7 @@ const BrowseSkills = ({ user }) => {
     const [skills, setSkills] = useState([]);
     const [selectedSkill, setSelectedSkill] = useState(null);
     const [showBookingModal, setShowBookingModal] = useState(false);
-    const [searchTerm, setSearchTerm] = useState(''); // State for the search input
+    const [searchTerm, setSearchTerm] = useState('');
 
     const fetchSkills = useCallback(async () => {
         try {
@@ -34,14 +34,12 @@ const BrowseSkills = ({ user }) => {
                 tutor: selectedSkill.tutor._id,
                 ...bookingDetails
             });
-            // Optionally, show a success message
             setShowBookingModal(false);
         } catch (error) {
             console.error("Failed to create booking", error);
         }
     };
 
-    // Filter skills based on the search term
     const filteredSkills = skills.filter(skill => 
         skill.skillName.toLowerCase().includes(searchTerm.toLowerCase()) ||
         skill.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -50,20 +48,19 @@ const BrowseSkills = ({ user }) => {
 
     return (
         <div>
-            {/* --- NEW: Search Bar --- */}
             <div className="mb-6 relative">
                 <input
                     type="text"
-                    placeholder="Search for a skill (e.g., Python, Guitar, Spanish)..."
+                    placeholder="Search for a skill..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full p-3 pl-10 border rounded-lg bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                    className="w-full p-3 pl-10 border rounded-lg bg-white shadow-sm"
                 />
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredSkills.length > 0 ? filteredSkills.map(skill => (
+                {filteredSkills.map(skill => (
                     <div key={skill._id} className="bg-white rounded-lg shadow-md p-6 flex flex-col justify-between">
                         <div>
                             <p className="text-sm font-semibold text-cyan-600">{skill.category}</p>
@@ -73,7 +70,8 @@ const BrowseSkills = ({ user }) => {
                         <div className="mt-4">
                             <div className="flex items-center text-sm text-gray-500">
                                 <UserIcon className="w-4 h-4 mr-2" />
-                                <span>Tutor: {skill.tutor.name}</span>
+                                {/* --- FIX: Add a check to ensure skill.tutor exists --- */}
+                                <span>Tutor: {skill.tutor ? skill.tutor.name : 'Unknown'}</span>
                             </div>
                             <button 
                                 onClick={() => handleBookClick(skill)}
@@ -84,9 +82,7 @@ const BrowseSkills = ({ user }) => {
                             </button>
                         </div>
                     </div>
-                )) : (
-                    <p className="text-center text-gray-500 col-span-full">No skills found matching your search. Try another keyword!</p>
-                )}
+                ))}
             </div>
 
             {showBookingModal && (
