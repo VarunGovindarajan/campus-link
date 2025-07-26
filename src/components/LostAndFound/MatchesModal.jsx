@@ -48,7 +48,11 @@ const MatchesModal = ({ lostItem, onClose }) => {
                                         <p className="text-sm text-gray-600">{item.description}</p>
                                         <div className="text-xs text-gray-500 mt-2 space-y-1">
                                             <p className="flex items-center"><MapPin className="w-3 h-3 mr-1.5" /> {item.location}</p>
-                                            <p className="flex items-center"><Clock className="w-3 h-3 mr-1.5" /> Reported by {item.reporter.name}</p>
+                                            {/* --- FIX: Add a check to ensure item.reporter exists --- */}
+                                            <p className="flex items-center">
+                                                <Clock className="w-3 h-3 mr-1.5" /> 
+                                                Reported by {item.reporter ? item.reporter.name : 'an unknown user'}
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
