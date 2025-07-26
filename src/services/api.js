@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // This should match the port your backend is running on
-const API_URL = 'https://campus-link-backend-0u9u.onrender.com/api';
+const API_URL = 'https://campus-link-backend-0u9u.onrender.com';
 
 // Create a centralized axios instance
 const api = axios.create({
