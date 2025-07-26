@@ -9,6 +9,9 @@ const Sidebar = ({ activePage, setActivePage, user, onLogout }) => {
         { id: 'complaints', label: 'Hostel Complaints', icon: MessageSquare },
         { id: 'skill-exchange', label: 'Skill Exchange', icon: Users },
                 { id: 'opportunities', label: 'Tech Hub', icon: Zap },
+                        { id: 'timetable', label: 'Timetable', icon: Calendar },
+                { id: 'polls', label: 'Polls & Feedback', icon: BarChart2 },
+
                 
 
 
